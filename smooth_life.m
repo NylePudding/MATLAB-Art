@@ -1,6 +1,6 @@
-function smoothlife ()
-	NX = 256;
-	NY = 256;
+function [a] = smoothlife ()
+	NX = 512;
+	NY = 512;
 	ra = 14;
 	ri = ra/3;
 	b = 1;
@@ -37,7 +37,6 @@ function smoothlife ()
 
 	aa = initaa(NY,NX,ra);
     a = aa;
-    cm = colour_scheme(60);
 	%figure; imagesc(aa);
 	for i = 1 : 800
 		aaf = fft2(aa);
@@ -54,14 +53,11 @@ function smoothlife ()
         a = a - 0.3;
         
 % 		imagesc(aa); colormap(gray); caxis([0 1]); colorbar; pause (0.001);
-        
-        
-        
     end
     
-    colormap(cm)
-    pcolor(a), shading interp
-    axis equal off
+%     colormap(cm)
+%     pcolor(a), shading interp
+%     axis equal off
     
 end
 

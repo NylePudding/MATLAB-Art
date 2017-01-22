@@ -22,7 +22,7 @@ axis equal off
 % cm = [zeros(10,3);cm];
 % cm = [ones(5,3);cm];
 
-cm = ColourScheme(3);
+cm = colour_scheme(50);
 [~,ind] = sort(cm(:,1));
 cm = cm(ind,:);
 colormap(cm)
