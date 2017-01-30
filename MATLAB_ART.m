@@ -22,7 +22,7 @@ function varargout = MATLAB_ART(varargin)
 
 % Edit the above text to modify the response to help MATLAB_ART
 
-% Last Modified by GUIDE v2.5 13-Jan-2017 14:22:28
+% Last Modified by GUIDE v2.5 29-Jan-2017 16:44:02
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -104,32 +104,32 @@ function btn_gen_Callback(hObject, eventdata, handles)
 
 set(handles.txt_load,'String','Generating...');
 
-name = get(handles.txt_name,'Value');
+name = get(handles.txt_name,'String');
 gender = get(handles.pop_gender,'Value');
 age = get(handles.pop_age,'Value');
 type = get(handles.pop_type,'Value');
 filter = get(handles.pop_filter,'Value');
+lifespan = str2double(get(handles.txt_lifespan,'String'));
+s = str2double(get(handles.txt_size,'String'));
 
 n = sum(double(name))*age;
-rng('shuffle');
+rng(n);
 
 
 a = [];
 
-s = 750;
-
 b = zeros(s/2);
 
-% b(1:end,end) = 1;
-% b(end,1:end) = 1;
+b(1:end,end) = 1;
+b(end,1:end) = 1;
 
 ext = randperm(s,age);
 
 
 for i = 1:s/2
     if any(ext==i)
-        b(1:i,i) = 1;
-        b(i,1:i) = 1;
+        b(i:end,i) = 1;
+        b(i,i:end) = 1;
     end
 end
 
@@ -139,16 +139,7 @@ m = [b fliplr(b);
  
 % m = randi(2, s) - 1;
 
-if strcmp(gender,'Male')
-    gender = 1; 
-end
-
-if strcmp(gender,'Female')
-    gender = 2;
-end
-
-a = conway_life(m);
-
+a = conway_life(m,lifespan);
 
 cm = colour_scheme(30,type,gender);
 
@@ -264,6 +255,52 @@ function txt_name_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function txt_name_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to txt_name (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function txt_lifespan_Callback(hObject, eventdata, handles)
+% hObject    handle to txt_lifespan (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txt_lifespan as text
+%        str2double(get(hObject,'String')) returns contents of txt_lifespan as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txt_lifespan_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txt_lifespan (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function txt_size_Callback(hObject, eventdata, handles)
+% hObject    handle to txt_size (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of txt_size as text
+%        str2double(get(hObject,'String')) returns contents of txt_size as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function txt_size_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to txt_size (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
