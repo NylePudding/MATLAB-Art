@@ -22,7 +22,7 @@ function varargout = MATLAB_ART(varargin)
 
 % Edit the above text to modify the response to help MATLAB_ART
 
-% Last Modified by GUIDE v2.5 29-Jan-2017 16:44:02
+% Last Modified by GUIDE v2.5 12-Feb-2017 11:59:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -108,43 +108,65 @@ name = get(handles.txt_name,'String');
 gender = get(handles.pop_gender,'Value');
 age = get(handles.pop_age,'Value');
 type = get(handles.pop_type,'Value');
+month = get(handles.pop_month,'Value');
 filter = get(handles.pop_filter,'Value');
 lifespan = str2double(get(handles.txt_lifespan,'String'));
+letter = get(handles.chk_letter, 'value');
 s = str2double(get(handles.txt_size,'String'));
+
+switch(month)
+    case 1
+        cm1 = colour_scheme(30,1,1,1);
+    case 2
+        cm1 = flipud(colour_scheme(30,1,1,500));
+    case 3
+        cm1 = colour_scheme(30,1,1,1350);
+    case 4
+        cm1 = colour_scheme(30,9,1,500);
+    case 5
+        cm1 = colour_scheme(30,3,1,2000);
+    case 6
+        cm1 = colour_scheme(30,9,1,500);
+    case 7
+        cm1 = colour_scheme(30,3,1,2950);
+    case 8
+        cm1 = colour_scheme(30,1,1,2000);
+    case 9
+        cm1 = flipud(colour_scheme(30,2,1,1000));
+    case 10
+        cm1 = colour_scheme(30,9,1,500);
+    case 11
+        cm1 = colour_scheme(30,2,1,2400);
+    case 12
+        cm1 = flipud(colour_scheme(30,1,1,1700));
+end
+
+
+
 
 n = sum(double(name))*age;
 rng(n);
 
 
-a = [];
+m = start_formation(s,age);
 
-b = zeros(s/2);
+a1 = conway_life(m,lifespan);
+% cm1 = colour_scheme(30,type,gender,-1);
+% cm2 = colour_scheme(30,type,gender,-1);
 
-b(1:end,end) = 1;
-b(end,1:end) = 1;
+im1 = rgb_pcolour(a1,cm1);
+im2 = rgb_pcolour(a1,flipud(cm1));
+% im1 = zeros(750,750,3);
 
-ext = randperm(s,age);
+letter_mask = name2mask(name);
 
-
-for i = 1:s/2
-    if any(ext==i)
-        b(i:end,i) = 1;
-        b(i,i:end) = 1;
-    end
+if letter == 1 
+    final = im_mask(im1,im2,a1,letter_mask);
+else
+    final = im1;
 end
 
-
-m = [b fliplr(b);
-     flipud(b) flipud(fliplr(b))];
- 
-% m = randi(2, s) - 1;
-
-a = conway_life(m,lifespan);
-
-cm = colour_scheme(30,type,gender);
-
-colormap(cm);
-surface = pcolor(a);
+imshow(final);
 shading flat
 axis equal off
 
@@ -309,3 +331,35 @@ function txt_size_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on selection change in pop_month.
+function pop_month_Callback(hObject, eventdata, handles)
+% hObject    handle to pop_month (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns pop_month contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from pop_month
+
+
+% --- Executes during object creation, after setting all properties.
+function pop_month_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pop_month (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in chk_letter.
+function chk_letter_Callback(hObject, eventdata, handles)
+% hObject    handle to chk_letter (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of chk_letter

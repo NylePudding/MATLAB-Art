@@ -1,4 +1,4 @@
-function [C] = ColourScheme (n, t, g)
+function [C] = colour_scheme (n, t, g, c1_ind)
 %n = total number of colours
 %t = type of colour scheme
 %g = gender
@@ -28,7 +28,9 @@ wheel(2501:3000,1) = 1;
 wheel(2501:3000,2) = linspace(1,0,500);
 wheel(2501:3000,3) = 0;
 
-c1_ind = randi([0 3000]);
+if c1_ind == -1
+    c1_ind = randi([0 3000]);
+end
 
 
 
@@ -192,9 +194,9 @@ end
 
 if t == 2
     
-    c2_ind = c1_ind + 500;
+    c2_ind = c1_ind + 300;
 
-    c3_ind = c1_ind + 1000;
+    c3_ind = c1_ind + 600;
 
     if c2_ind > 3000
         c2_ind = c2_ind - 3000;

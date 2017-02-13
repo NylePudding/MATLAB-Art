@@ -1,4 +1,4 @@
-function [a] = conway_life(m, ite)
+function [a,m] = conway_life(m, ite)
 [~,n] = size(m);
 % a = randi([0 1],s);
 a = zeros(n);
