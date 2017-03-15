@@ -1,7 +1,8 @@
-function [a,m] = conway_life(m, ite)
+function [a,s] = conway_life(m, ite)
 [~,n] = size(m);
 % a = randi([0 1],s);
 a = zeros(n);
+s = zeros(n,n,ite);
 
 for j = 1:1
     %m = randi(2, s) - 1;
@@ -12,6 +13,7 @@ for j = 1:1
        a = a + m;
        a(a>1) = 0.3;
        a = a - 0.01;
+       s(:,:,ite) = a;
     end
 end
 

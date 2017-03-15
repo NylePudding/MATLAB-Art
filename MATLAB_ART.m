@@ -102,8 +102,6 @@ function btn_gen_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-set(handles.txt_load,'String','Generating...');
-
 name = get(handles.txt_name,'String');
 gender = get(handles.pop_gender,'Value');
 age = get(handles.pop_age,'Value');
@@ -114,32 +112,32 @@ lifespan = str2double(get(handles.txt_lifespan,'String'));
 letter = get(handles.chk_letter, 'value');
 s = str2double(get(handles.txt_size,'String'));
 
-switch(month)
-    case 1
-        cm1 = colour_scheme(30,1,1,1);
-    case 2
-        cm1 = flipud(colour_scheme(30,1,1,500));
-    case 3
-        cm1 = colour_scheme(30,1,1,1350);
-    case 4
-        cm1 = colour_scheme(30,9,1,500);
-    case 5
-        cm1 = colour_scheme(30,3,1,2000);
-    case 6
-        cm1 = colour_scheme(30,9,1,500);
-    case 7
-        cm1 = colour_scheme(30,3,1,2950);
-    case 8
-        cm1 = colour_scheme(30,1,1,2000);
-    case 9
-        cm1 = flipud(colour_scheme(30,2,1,1000));
-    case 10
-        cm1 = colour_scheme(30,9,1,500);
-    case 11
-        cm1 = colour_scheme(30,2,1,2400);
-    case 12
-        cm1 = flipud(colour_scheme(30,1,1,1700));
-end
+% switch(month)
+%     case 1
+%         cm1 = colour_scheme(30,1,1,1);
+%     case 2
+%         cm1 = flipud(colour_scheme(30,1,1,500));
+%     case 3
+%         cm1 = colour_scheme(30,1,1,1350);
+%     case 4
+%         cm1 = colour_scheme(30,9,1,500);
+%     case 5
+%         cm1 = colour_scheme(30,3,1,2000);
+%     case 6
+%         cm1 = colour_scheme(30,9,1,500);
+%     case 7
+%         cm1 = colour_scheme(30,3,1,2950);
+%     case 8
+%         cm1 = colour_scheme(30,1,1,2000);
+%     case 9
+%         cm1 = flipud(colour_scheme(30,2,1,1000));
+%     case 10
+%         cm1 = colour_scheme(30,9,1,500);
+%     case 11
+%         cm1 = colour_scheme(30,2,1,2400);
+%     case 12
+%         cm1 = flipud(colour_scheme(30,1,1,1700));
+% end
 
 
 
@@ -150,9 +148,19 @@ rng(n);
 
 m = start_formation(s,age);
 
-a1 = conway_life(m,lifespan);
-% cm1 = colour_scheme(30,type,gender,-1);
+[a1,s] = conway_life(m,lifespan);
+cm1 = colour_scheme(30,type,gender,-1);
 % cm2 = colour_scheme(30,type,gender,-1);
+
+% [~,~,ite] = size(s);
+% 
+% for i = 1 : ite
+%     pause(0.5);
+%     imshow(rgb_pcolour(s(:,:,i),cm1));
+%     drawnow;
+%     refreshdata;
+% end
+
 
 im1 = rgb_pcolour(a1,cm1);
 im2 = rgb_pcolour(a1,flipud(cm1));
@@ -167,10 +175,13 @@ else
 end
 
 imshow(final);
+
+
+
+
 shading flat
 axis equal off
 
-set(handles.txt_load,'String','Done');
 
 % --- Executes on selection change in pop_age.
 function pop_age_Callback(hObject, eventdata, handles)
